@@ -36,9 +36,10 @@
         methods: {
             logout(){
                 this.logingOut = true;
-                this.$store.commit('logout');
-                this.$router.push('/');
-                this.logingOut = false;
+                setTimeout(() => {
+                    this.$router.push('/logout');
+                    this.logingOut = false;
+                }, 1000);
             }
         }
     }

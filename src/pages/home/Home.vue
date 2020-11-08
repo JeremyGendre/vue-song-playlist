@@ -9,6 +9,11 @@
 
     export default {
         name: 'Home',
+        beforeCreate(){
+            if(this.$store.state.user === null){
+                this.$router.push('/login');
+            }
+        },
         created(){
             updateBackground(null);
         },

@@ -42,12 +42,16 @@
                     :disabled="loading || !validForm"
                     :loading="loading"
                     color="primary"
-                    class="mt-4 rounded"
+                    class="mt-4 rounded my-auto"
                     type="submit"
                     form="login-form"
             >
                 Log in
             </v-btn>
+            <div class="d-flex justify-center mt-3 text-sm">
+                <div class="mr-2">no account ?</div>
+                <router-link to="/register">sign up</router-link>
+            </div>
         </v-form>
     </v-card>
 </template>
@@ -76,6 +80,10 @@
             error: null
         }),
         created(){
+            if(this.$store.state.user !== null){
+                this.$router.push('/');
+                return;
+            }
             updateBackground(null);
         },
         methods:{
@@ -88,6 +96,7 @@
                         this.password
                     ).then(() => {
                         this.$store.commit('setUser', firebase.auth().currentUser);
+                        this.$router.push('/');
                     }).catch(error => { this.error = error.message }).finally(() => {
                         this.loading = false;
                     });

@@ -3,7 +3,6 @@ body{
 }
 
 .w-full{width:100%;}
-
 .h-full{height:100%;}
 
 .font-bold{font-weight: bold;}
@@ -13,10 +12,9 @@ body{
 .flex-col{flex-direction: column;}
 .flex-row{flex-direction: row;}
 
+.text-sm{font-size:0.9em !important;}
 .text-lg{font-size:1.3em !important;}
-
 .text-xl{font-size:1.5em;}
-
 .text-4xl{font-size: 3em;}
 
 .absolute{position: absolute;}
@@ -28,7 +26,6 @@ body{
 .cursor-pointer{cursor:pointer;}
 
 .overflow-hidden{overflow: hidden;}
-
 .overflow-y-scroll{overflow-y: scroll;}
 
 .max-height-full{max-height: 100%;}

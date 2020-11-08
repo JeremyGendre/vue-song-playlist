@@ -56,6 +56,11 @@
             randomPlaylist: false,
             snackbar: defaultSnackbar
         }),
+        beforeCreate(){
+            if(this.$store.state.user === null){
+                this.$router.push('/login');
+            }
+        },
         created(){
             //fetch data
             this.songs = rockSongsList;
