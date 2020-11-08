@@ -27,7 +27,15 @@
                     required
                     @click:append="showPassword = !showPassword"
             ></v-text-field>
-
+            <v-alert
+                    dense
+                    outlined
+                    type="error"
+                    class="rounded"
+                    v-if="error"
+            >
+                {{ error !== '' ? error : 'An error occured, maybe try again after refreshing the page.' }}
+            </v-alert>
             <v-btn
                     :disabled="loading || !validForm"
                     :loading="loading"
@@ -42,6 +50,9 @@
 </template>
 
 <script>
+    import firebase from 'firebase/app';
+    import 'firebase/firestore';
+
     export default {
         name: 'Login',
         data : ()=>({
@@ -57,16 +68,23 @@
                 value => !!value || 'Password is required',
                 value => value.length >= 6 || 'Min 6 characters',
             ],
-            showPassword: false
+            showPassword: false,
+            error: null
         }),
         methods:{
             login(){
+                this.error = null;
                 if(this.$refs.loginForm.validate()){
                     this.loading = true;
-                    setTimeout(() => {
+                    firebase.auth().signInWithEmailAndPassword(
+                        this.email,
+                        this.password
+                    ).then(() => {
+                        this.$store.commit('setUser', firebase.auth().currentUser);
+                        console.log(this.$store.state.user);
+                    }).catch(error => { this.error = error.message }).finally(() => {
                         this.loading = false;
-                        this.$router.push('/playlist');
-                    }, 1000);
+                    });
                 }
             }
         }
