@@ -32,6 +32,10 @@ body{
     font-size:1.5em;
 }
 
+.text-4xl{
+    font-size: 3em;
+}
+
 .absolute{
     position: absolute;
 }

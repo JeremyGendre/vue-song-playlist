@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from "../components/home/Home";
 import Playlist from "../components/playlist/Playlist";
+import PageNotFound from "../pages/error/PageNotFound";
+import PageNotAuthorized from "../pages/error/PageNotAuthorized";
 
 Vue.use(VueRouter);
 
@@ -16,6 +18,9 @@ const routes = [
         name: 'playlist',
         component: Playlist
     },
+    { path: "/403", name: 'not_authorized', component: PageNotAuthorized },
+    { path: "/404", name: 'not_found', component: PageNotFound },
+    { path: "*", name: 'not_found_default', component: PageNotFound }
 ];
 
 const router = new VueRouter({

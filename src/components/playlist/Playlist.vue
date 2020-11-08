@@ -32,6 +32,10 @@
     import Songlist from "./SongList";
     import {getRandomInt} from "../../helpers/functions";
     import MySnackbar from "../snackbar/MySnackbar";
+    /*import firebase from 'firebase/app';
+    import 'firebase/firestore';
+
+    const db = firebase.firestore();*/
 
     const defaultSnackbar = {
         show: false,
@@ -56,6 +60,11 @@
             //fetch data
             this.songs = rockSongsList;
             this.actualSongIndex = 0;
+        },
+        updated(){
+            if(this.$store.state.user === null){
+                this.$router.push('/403');
+            }
         },
         methods: {
             nextSong(){
