@@ -17,6 +17,13 @@ import Header from "./components/header/Header";
 import './assets/css/App.css';
 import './assets/css/Responsive.css';
 
+// eslint-disable-next-line no-unused-vars
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import firebaseConfig from "./config/firebase";
+firebase.initializeApp(firebaseConfig);
+
 export default {
   name: 'App',
   components: {
