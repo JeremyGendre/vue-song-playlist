@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>Mes playlists</div>
+        <button @click="goToPlaylist">Mes playlists</button>
     </div>
 </template>
 
@@ -11,6 +11,11 @@
         name: 'Home',
         created(){
             updateBackground(null);
+        },
+        methods: {
+            goToPlaylist(){
+                this.$router.push('/playlist')
+            }
         }
     };
 </script>

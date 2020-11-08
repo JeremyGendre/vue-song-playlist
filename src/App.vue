@@ -3,7 +3,7 @@
     <!--<v-app-bar app color="transparent" class="fixed" elevation="10" dark></v-app-bar>-->
     <v-main class="d-flex h-full">
         <div class="d-flex h-full flex-col">
-            <div id="background" class="w-full self-stretch h-full fixed"></div>
+            <div id="background" class="w-full self-stretch h-full fixed z-0"></div>
             <Header v-if="this.$store.state.user !== null"/>
             <AppContent/>
         </div>

@@ -1,6 +1,6 @@
 <template>
     <Loading v-if="fetchingUser"/>
-    <v-container v-else class="my-auto">
+    <v-container v-else class="my-auto z-50">
       <div class="d-flex h-full">
         <div class="ma-auto text-center">
           <Login v-if="this.$store.state.user === null"/>

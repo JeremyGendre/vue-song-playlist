@@ -1,87 +1,48 @@
 body{
     background-color: white;
 }
-.w-full{
-    width:100%;
-}
 
-.h-full{
-    height:100%;
-}
+.w-full{width:100%;}
 
-.font-bold{
-    font-weight: bold;
-}
+.h-full{height:100%;}
 
-.rounded{
-    border-radius: 5px !important;
-}
+.font-bold{font-weight: bold;}
 
-.flex-col{
-    flex-direction: column;
-}
-.flex-row{
-    flex-direction: row;
-}
+.rounded{border-radius: 5px !important;}
 
-.text-lg{
-    font-size:1.3em !important;
-}
+.flex-col{flex-direction: column;}
+.flex-row{flex-direction: row;}
 
-.text-xl{
-    font-size:1.5em;
-}
+.text-lg{font-size:1.3em !important;}
 
-.text-4xl{
-    font-size: 3em;
-}
+.text-xl{font-size:1.5em;}
 
-.absolute{
-    position: absolute;
-}
-.relative{
-    position: relative;
-}
-.fixed{
-    position: fixed;
-}
-.sticky{
-     position: sticky;
-}
-.top-0{
-    top:0;
-}
+.text-4xl{font-size: 3em;}
 
-.cursor-pointer{
-    cursor:pointer;
-}
+.absolute{position: absolute;}
+.relative{position: relative;}
+.fixed{position: fixed;}
+.sticky{position: sticky;}
+.top-0{top:0;}
 
-.overflow-hidden{
-    overflow: hidden;
-}
+.cursor-pointer{cursor:pointer;}
 
-.overflow-y-scroll{
-    overflow-y: scroll;
-}
+.overflow-hidden{overflow: hidden;}
 
-.max-height-full{
-    max-height: 100%;
-}
+.overflow-y-scroll{overflow-y: scroll;}
 
-.opacity-50{
-    opacity: 0.5;
-}
+.max-height-full{max-height: 100%;}
 
-.self-stretch{
-    align-self: stretch;
-}
+.opacity-50{opacity: 0.5;}
 
-.w-screen{
-    width: 100vw;
-}
-.h-screen{
-    height: 100vh;
-}
+.self-stretch{align-self: stretch;}
+
+.w-screen{width: 100vw;}
+.h-screen{height: 100vh;}
+
+.z-0{z-index: 0;}
+.z-10{z-index: 10;}
+.z-50{z-index: 50;}
 
 
 #background{
