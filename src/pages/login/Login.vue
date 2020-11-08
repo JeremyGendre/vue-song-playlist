@@ -6,9 +6,11 @@
             elevation="20"
     >
         <v-form
+                id="login-form"
                 ref="loginForm"
                 v-model="validForm"
                 lazy-validation
+                @submit.prevent="login"
         >
             <div class="font-bold">Log in !</div>
             <v-text-field
@@ -41,9 +43,10 @@
                     :loading="loading"
                     color="primary"
                     class="mt-4 rounded"
-                    @click="login"
+                    type="submit"
+                    form="login-form"
             >
-                Validate
+                Log in
             </v-btn>
         </v-form>
     </v-card>
