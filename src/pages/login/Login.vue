@@ -1,6 +1,6 @@
 <template>
     <v-card
-            class="mx-auto px-8 py-4"
+            class="mx-auto px-8 py-4 rounded"
             max-width="344"
             outlined
             elevation="20"
@@ -52,6 +52,7 @@
 <script>
     import firebase from 'firebase/app';
     import 'firebase/firestore';
+    import {updateBackground} from "../../helpers/functions";
 
     export default {
         name: 'Login',
@@ -71,6 +72,9 @@
             showPassword: false,
             error: null
         }),
+        created(){
+            updateBackground(null);
+        },
         methods:{
             login(){
                 this.error = null;
@@ -81,7 +85,6 @@
                         this.password
                     ).then(() => {
                         this.$store.commit('setUser', firebase.auth().currentUser);
-                        console.log(this.$store.state.user);
                     }).catch(error => { this.error = error.message }).finally(() => {
                         this.loading = false;
                     });

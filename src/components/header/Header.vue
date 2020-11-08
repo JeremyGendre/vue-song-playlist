@@ -1,15 +1,45 @@
 <template>
-    <div id="header" class="sticky top-0 w-full d-flex justify-center">
-        <HeaderLink text="Home" icon="home" href="/"/>
-        <HeaderLink text="Playlist" icon="playlist-music" href="/playlist"/>
+    <div id="header" class="sticky top-0 w-full d-flex justify-space-between px-4">
+        <div class="my-auto">
+            <v-btn
+                    icon
+                    color="white"
+            >
+                <v-icon>mdi-menu</v-icon>
+            </v-btn>
+        </div>
+        <div class="my-auto">
+            <v-btn
+                    small
+                    :loading="logingOut"
+                    :disabled="logingOut"
+                    color="blue-grey"
+                    class="ma-2 white--text rounded"
+                    @click="logout"
+            >
+                Logout
+                <v-icon>mdi-logout</v-icon>
+            </v-btn>
+        </div>
+        <!--<HeaderLink text="Home" icon="home" href="/"/>
+        <HeaderLink text="Playlist" icon="playlist-music" href="/playlist"/>-->
     </div>
 </template>
 
 <script>
     import '../../assets/css/Header.css';
-    import HeaderLink from "./HeaderLink";
     export default {
         name: 'Header',
-        components: {HeaderLink}
+        data: () => ({
+            logingOut: false
+        }),
+        methods: {
+            logout(){
+                this.logingOut = true;
+                this.$store.commit('logout');
+                this.$router.push('/');
+                this.logingOut = false;
+            }
+        }
     }
 </script>

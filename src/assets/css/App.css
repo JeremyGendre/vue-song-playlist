@@ -76,6 +76,13 @@ body{
     align-self: stretch;
 }
 
+.w-screen{
+    width: 100vw;
+}
+.h-screen{
+    height: 100vh;
+}
+
 
 #background{
     background-size: cover;
