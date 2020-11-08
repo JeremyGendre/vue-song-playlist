@@ -4,7 +4,7 @@
     <v-main class="d-flex h-full">
         <div class="d-flex h-full flex-col">
             <div id="background" class="w-full self-stretch h-full fixed"></div>
-            <Header/>
+            <Header v-if="this.$store.state.user !== null"/>
             <AppContent/>
         </div>
     </v-main>
@@ -12,12 +12,11 @@
 </template>
 
 <script>
-import AppContent from './components/AppContent';
+import AppContent from './pages/AppContent';
 import Header from "./components/header/Header";
 import './assets/css/App.css';
 import './assets/css/Responsive.css';
 
-// eslint-disable-next-line no-unused-vars
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";

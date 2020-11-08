@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from "../components/home/Home";
-import Playlist from "../components/playlist/Playlist";
+import Home from "../pages/home/Home";
+import Playlist from "../pages/playlist/Playlist";
 import PageNotFound from "../pages/error/PageNotFound";
 import PageNotAuthorized from "../pages/error/PageNotAuthorized";
 

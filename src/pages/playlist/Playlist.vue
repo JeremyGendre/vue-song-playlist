@@ -27,11 +27,11 @@
 </template>
 
 <script>
-    import Player from "../player/Player";
+    import Player from "../../components/player/Player";
     import { rockSongsList } from "../../data/song";
-    import Songlist from "./SongList";
+    import Songlist from "../../components/playlist/SongList";
     import {getRandomInt} from "../../helpers/functions";
-    import MySnackbar from "../snackbar/MySnackbar";
+    import MySnackbar from "../../components/snackbar/MySnackbar";
     /*import firebase from 'firebase/app';
     import 'firebase/firestore';
 
