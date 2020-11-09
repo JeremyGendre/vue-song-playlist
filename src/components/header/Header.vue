@@ -4,6 +4,7 @@
             <v-btn
                     icon
                     color="white"
+                    @click="goHome"
             >
                 <v-icon>mdi-menu</v-icon>
             </v-btn>
@@ -40,6 +41,9 @@
                     this.$router.push('/logout');
                     this.logingOut = false;
                 }, 1000);
+            },
+            goHome(){
+                this.$router.push('/');
             }
         }
     }
