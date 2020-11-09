@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-flex flex-wrap">
         <HomePlaylistItem v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"/>
     </div>
 </template>
@@ -9,6 +9,7 @@
     import firebase from 'firebase/app';
     import 'firebase/firestore';
     import HomePlaylistItem from "./HomePlaylistItem";
+    import fetchRandomImage from "../../data/backgroundImage";
 
     const database = firebase.firestore();
 
@@ -16,7 +17,8 @@
         name: 'Home',
         components: {HomePlaylistItem},
         data: () => ({
-            playlists: []
+            playlists: [],
+            bgImage: null
         }),
         beforeCreate(){
             if(this.$store.state.user === null){
@@ -24,7 +26,7 @@
             }
         },
         created(){
-            updateBackground(null);
+            this.initializeBgImage();
             database.collection('Playlist').where("userId", '==', firebase.auth().currentUser.uid)
                 .get()
                 .then(querySnapshot => {
@@ -38,8 +40,13 @@
                 })
         },
         methods: {
-            goToPlaylist(){
-                this.$router.push('/playlist')
+            async initializeBgImage(){
+                this.bgImage = await fetchRandomImage();
+            }
+        },
+        watch: {
+            bgImage(newValue){
+                updateBackground(newValue);
             }
         }
     };

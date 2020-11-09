@@ -11,6 +11,7 @@ body{
 
 .flex-col{flex-direction: column;}
 .flex-row{flex-direction: row;}
+.flex-wrap{flex-wrap: wrap}
 
 .text-sm{font-size:0.9em !important;}
 .text-lg{font-size:1.3em !important;}
