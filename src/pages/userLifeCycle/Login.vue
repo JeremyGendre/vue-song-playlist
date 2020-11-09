@@ -12,7 +12,7 @@
                 lazy-validation
                 @submit.prevent="login"
         >
-            <div class="font-bold">Log in !</div>
+            <div class="font-bold">Sign in !</div>
             <v-text-field
                     v-model="email"
                     :rules="emailRules"
@@ -97,7 +97,9 @@
                     ).then(() => {
                         this.$store.commit('setUser', firebase.auth().currentUser);
                         this.$router.push('/');
-                    }).catch(error => { this.error = error.message }).finally(() => {
+                    }).catch(error => {
+                        this.error = error.message
+                    }).finally(() => {
                         this.loading = false;
                     });
                 }
