@@ -8,13 +8,13 @@
         </v-card-title>
         <v-card-subtitle class="text-left">X songs</v-card-subtitle>
         <v-card-actions>
-            <v-btn class="rounded" text>
+            <v-btn class="rounded" color="blue lighten-3" text>
                 listen
                 <v-icon right dark>mdi-play-circle</v-icon>
             </v-btn>
             <v-btn
                     icon
-                    color="deep-orange"
+                    color="red"
             >
                 <v-icon>mdi-delete</v-icon>
             </v-btn>

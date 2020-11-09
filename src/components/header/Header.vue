@@ -14,7 +14,7 @@
                     small
                     :loading="logingOut"
                     :disabled="logingOut"
-                    color="blue-grey"
+                    color="primary"
                     class="ma-2 white--text rounded"
                     @click="logout"
             >
