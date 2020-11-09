@@ -72,9 +72,9 @@
 
 <script>
     import '../../assets/css/Player.css';
-    import axios from 'axios';
     import {getStoredItem, storeItem} from "../../helpers/storage";
     import {updateBackground} from "../../helpers/functions";
+    import fetchRandomImage from "../../data/backgroundImage";
 
     export default {
         name: 'Player',
@@ -138,12 +138,8 @@
                     self.next();
                 }, false);
             },
-            getImage(){
-                this.audioImage = null;
-                axios.get('https://picsum.photos/600/300.jpg', {responseType: "arraybuffer"}).then(result => {
-                    const buff = new Buffer(result.data);
-                    this.audioImage = `data:image/jpeg;base64,${buff.toString('base64')}`;
-                });
+            async getImage(){
+                this.audioImage = await fetchRandomImage();
             },
             setUpSong(){
                 //TODO : do this stuff before (when the song is given to this component, to not have to do all of this setup methods)
