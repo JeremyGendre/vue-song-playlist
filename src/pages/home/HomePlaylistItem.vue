@@ -8,10 +8,12 @@
         </v-card-title>
         <v-card-subtitle class="text-left">X songs</v-card-subtitle>
         <v-card-actions>
-            <v-btn class="rounded" color="blue lighten-3" text>
-                listen
-                <v-icon right dark>mdi-play-circle</v-icon>
-            </v-btn>
+            <router-link :to="pathToPlaylist" class="no-link">
+                <v-btn class="rounded" color="blue lighten-3" text>
+                    listen
+                    <v-icon right dark>mdi-play-circle</v-icon>
+                </v-btn>
+            </router-link>
             <v-btn
                     icon
                     color="red"
@@ -27,6 +29,11 @@
         name: 'HomePlaylistItem',
         props: {
             playlist: Object
+        },
+        computed: {
+            pathToPlaylist(){
+                return `/playlist/${this.playlist.id}`;
+            }
         }
     };
 </script>

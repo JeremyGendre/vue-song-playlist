@@ -50,3 +50,7 @@ body{
     filter: blur(9px);
     -webkit-filter: blur(9px);
 }
+
+.no-link{
+    text-decoration: none;
+}

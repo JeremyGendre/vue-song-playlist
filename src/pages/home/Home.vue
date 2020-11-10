@@ -31,7 +31,6 @@
                 .get()
                 .then(querySnapshot => {
                     querySnapshot.forEach(doc => {
-                        console.log(doc.id, " => ", doc.data());
                         this.playlists = [...this.playlists, { id: doc.id, ...doc.data() }];
                     });
                 })
