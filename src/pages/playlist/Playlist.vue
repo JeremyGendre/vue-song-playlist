@@ -28,14 +28,9 @@
 
 <script>
     import Player from "../../components/player/Player";
-    import { rockSongsList } from "../../data/song";
     import Songlist from "../../components/playlist/SongList";
     import {getRandomInt} from "../../helpers/functions";
     import MySnackbar from "../../components/snackbar/MySnackbar";
-    /*import firebase from 'firebase/app';
-    import 'firebase/firestore';
-
-    const db = firebase.firestore();*/
 
     const defaultSnackbar = {
         show: false,
@@ -48,29 +43,16 @@
     export default {
         name: 'Playlist',
         components: {MySnackbar, Songlist, Player},
+        props:{
+            songs: Array
+        },
         data: () => ({
-            songs: [],
             listenedSongIndexes: [],
-            actualSongIndex: null,
+            actualSongIndex: 0,
             containerStyle: null,
             randomPlaylist: false,
             snackbar: defaultSnackbar
         }),
-        beforeCreate(){
-            if(this.$store.state.user === null){
-                this.$router.push('/login');
-            }
-        },
-        created(){
-            //fetch data
-            this.songs = rockSongsList;
-            this.actualSongIndex = 0;
-        },
-        updated(){
-            if(this.$store.state.user === null){
-                this.$router.push('/403');
-            }
-        },
         methods: {
             nextSong(){
                 if(this.randomPlaylist && this.listenedSongIndexes.length < this.songs.length){

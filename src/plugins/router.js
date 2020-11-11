@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from "../pages/home/Home";
-import Playlist from "../pages/playlist/Playlist";
 import PageNotFound from "../pages/error/PageNotFound";
 import PageNotAuthorized from "../pages/error/PageNotAuthorized";
 import Login from "../pages/userLifeCycle/Login";
 import Register from "../pages/userLifeCycle/Register";
 import Logout from "../pages/userLifeCycle/Logout";
+import PlaylistContainer from "../pages/playlist/PlaylistContainer";
 
 Vue.use(VueRouter);
 
 const routes = [
     { path: '/', name: 'home', component: Home },
-    { path: '/playlist/:id', name: 'playlist', component: Playlist },
+    { path: '/playlist/:id', name: 'playlist', component: PlaylistContainer },
     { path: '/login', name: 'login', component: Login },
     { path: '/register', name: 'register', component: Register },
     { path: '/logout', name: 'logout', component: Logout },
