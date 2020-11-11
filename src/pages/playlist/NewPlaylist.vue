@@ -14,6 +14,7 @@
         >
             <div class="font-bold">New playlist !</div>
             <v-text-field
+                    v-if="!creationComplete"
                     v-model="name"
                     :rules="nameRules"
                     label="Name"
@@ -28,8 +29,17 @@
             >
                 {{ error !== '' ? error : 'An error occured, maybe try again after refreshing the page.' }}
             </v-alert>
+            <v-alert
+                    v-if="creationComplete"
+                    dense
+                    class="mt-4"
+                    text
+                    type="success"
+            >
+                Account successfully created, redirecting ...
+            </v-alert>
             <v-btn
-                    :disabled="loading || !validForm"
+                    :disabled="loading || !validForm || creationComplete"
                     :loading="loading"
                     color="primary"
                     class="mt-4 rounded my-auto"
@@ -43,6 +53,11 @@
 </template>
 
 <script>
+    import firebase from 'firebase/app';
+    import 'firebase/firestore';
+
+    const database = firebase.firestore();
+
     export default {
         name: 'NewPlaylist',
         data : ()=>({
@@ -53,12 +68,31 @@
                 value => !!value || 'Name is required',
                 value => value.length >= 1 || 'Min 1 characters',
             ],
-            error: null
+            error: null,
+            creationComplete: false
         }),
         methods: {
             createPlaylist(){
-                console.log('create !');
-                this.loading = true;
+                if(this.$refs.newPlaylistForm.validate()){
+                    this.loading = true;
+                    const self = this;
+                    const docData = {
+                        name: this.name,
+                        songs: [],
+                        userId: firebase.auth().currentUser.uid
+                    };
+                    database.collection('Playlist')
+                        .add(docData)
+                        .then(() => {
+                            self.name = '';
+                            self.creationComplete = true;
+                            setTimeout(() => {
+                                self.$router.push('/');
+                            }, 2000);
+                        })
+                        .catch(console.error)
+                        .finally(() => {this.loading = false});
+                }
             }
         }
     };

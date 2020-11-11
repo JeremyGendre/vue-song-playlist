@@ -2,7 +2,11 @@
     <div class="d-flex flex-wrap">
         <CreatePlaylistCard/>
         <div v-if="loading" class="ma-auto ml-8 loading-div px-4 py-2">Fetching data ...</div>
-        <HomePlaylistItem v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"/>
+        <HomePlaylistItem v-for="playlist in playlists"
+                          :key="playlist.id"
+                          :playlist="playlist"
+                          :on-delete="deletePlaylist"
+        />
     </div>
 </template>
 
@@ -31,23 +35,23 @@
         },
         created(){
             this.initializeBgImage();
-            setTimeout(() => {
-                database.collection('Playlist').where("userId", '==', firebase.auth().currentUser.uid)
-                    .get()
-                    .then(querySnapshot => {
-                        querySnapshot.forEach(doc => {
-                            this.playlists = [...this.playlists, { id: doc.id, ...doc.data() }];
-                        });
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    }).finally(() => { this.loading = false })
-            }, 2000)
-
+            database.collection('Playlist').where("userId", '==', firebase.auth().currentUser.uid)
+                .get()
+                .then(querySnapshot => {
+                    querySnapshot.forEach(doc => {
+                        this.playlists = [...this.playlists, { id: doc.id, ...doc.data() }];
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                }).finally(() => { this.loading = false })
         },
         methods: {
             async initializeBgImage(){
                 this.bgImage = await fetchRandomImage();
+            },
+            deletePlaylist(id){
+                this.playlists = this.playlists.filter(playlist => playlist.id !== id);
             }
         },
         watch: {
