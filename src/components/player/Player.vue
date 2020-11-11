@@ -75,6 +75,10 @@
     import {getStoredItem, storeItem} from "../../helpers/storage";
     import {updateBackground} from "../../helpers/functions";
     import fetchRandomImage from "../../data/backgroundImage";
+    import firebase from 'firebase/app';
+    import 'firebase/storage';
+
+    const storage = firebase.storage();
 
     export default {
         name: 'Player',
@@ -95,8 +99,7 @@
             loadingImage: true
         }),
         created(){
-            this.audioSong = new Audio(this.song.src);
-            this.setUpSong();
+            this.fetchSong(this.song.path);
         },
         methods: {
             play(){
@@ -149,6 +152,19 @@
                 this.handleEnd();
                 this.setUpVolume();
             },
+            fetchSong(path){
+                const audioPathRef = storage.refFromURL(path);
+                const self = this;
+                audioPathRef.getDownloadURL().then(function(url) {
+                    console.log(url);
+                    self.audioSong = new Audio(url);
+                    self.setUpSong();
+                    if(self.playing){
+                        self.audioSong.play();
+                    }
+                    self.audioTimer = 0;
+                }).catch(console.error);
+            },
             setUpVolume(){
                 this.audioSong.volume = getStoredItem('volume') ?? 1;
             },
@@ -171,12 +187,7 @@
         watch:{
             song(newVal){
                 this.audioSong.pause();
-                this.audioSong = new Audio(newVal.src);
-                this.setUpSong();
-                if(this.playing){
-                    this.audioSong.play();
-                }
-                this.audioTimer = 0;
+                this.fetchSong(newVal.path);
             },
             playing(isPlaying){
                 if(isPlaying){
