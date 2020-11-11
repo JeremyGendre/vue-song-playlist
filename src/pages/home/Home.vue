@@ -1,6 +1,7 @@
 <template>
     <div class="d-flex flex-wrap">
         <CreatePlaylistCard/>
+        <div v-if="loading" class="ma-auto ml-8 loading-div px-4 py-2">Fetching data ...</div>
         <HomePlaylistItem v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"/>
     </div>
 </template>
@@ -20,7 +21,8 @@
         components: {CreatePlaylistCard, HomePlaylistItem},
         data: () => ({
             playlists: [],
-            bgImage: null
+            bgImage: null,
+            loading: true
         }),
         beforeCreate(){
             if(this.$store.state.user === null){
@@ -29,16 +31,19 @@
         },
         created(){
             this.initializeBgImage();
-            database.collection('Playlist').where("userId", '==', firebase.auth().currentUser.uid)
-                .get()
-                .then(querySnapshot => {
-                    querySnapshot.forEach(doc => {
-                        this.playlists = [...this.playlists, { id: doc.id, ...doc.data() }];
-                    });
-                })
-                .catch(error => {
-                    console.error(error);
-                })
+            setTimeout(() => {
+                database.collection('Playlist').where("userId", '==', firebase.auth().currentUser.uid)
+                    .get()
+                    .then(querySnapshot => {
+                        querySnapshot.forEach(doc => {
+                            this.playlists = [...this.playlists, { id: doc.id, ...doc.data() }];
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    }).finally(() => { this.loading = false })
+            }, 2000)
+
         },
         methods: {
             async initializeBgImage(){
@@ -52,3 +57,10 @@
         }
     };
 </script>
+
+<style scoped>
+    .loading-div{
+        background-color: #212121;
+        color: white;
+    }
+</style>
