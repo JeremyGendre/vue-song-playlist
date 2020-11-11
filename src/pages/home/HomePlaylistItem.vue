@@ -6,7 +6,7 @@
         <v-card-title>
             {{ playlist.name }}
         </v-card-title>
-        <v-card-subtitle class="text-left">X songs</v-card-subtitle>
+        <v-card-subtitle class="text-left">{{ playlist.songs.length }} songs</v-card-subtitle>
         <v-card-actions>
             <router-link :to="pathToPlaylist" class="no-link">
                 <v-btn class="rounded" color="blue lighten-3" text>
