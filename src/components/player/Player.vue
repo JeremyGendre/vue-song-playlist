@@ -71,7 +71,6 @@
 </template>
 
 <script>
-    import '../../assets/css/Player.css';
     import {getStoredItem, storeItem} from "../../helpers/storage";
     import {updateBackground} from "../../helpers/functions";
     import fetchRandomImage from "../../data/backgroundImage";
@@ -225,3 +224,18 @@
         }
     }
 </script>
+
+<style scoped>
+    .card-text{
+        background-color: black;
+        color:white;
+    }
+
+    #player-card{
+        border-radius: 15px 0 0 15px;
+    }
+
+    .volume-slider{
+        width:60%;
+    }
+</style>

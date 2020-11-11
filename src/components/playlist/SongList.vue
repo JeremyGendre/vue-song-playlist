@@ -18,7 +18,6 @@
 
 <script>
     import SongItem from "./SongItem";
-    import '../../assets/css/SongList.css';
     export default {
         name: 'Songlist',
         components: {SongItem},
@@ -41,3 +40,10 @@
         }
     };
 </script>
+
+<style scoped>
+    #list-card{
+        border-left: solid 2px #ef6c00;
+        border-radius: 0 5px 5px 0;
+    }
+</style>

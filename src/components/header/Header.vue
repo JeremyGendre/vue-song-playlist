@@ -28,7 +28,6 @@
 </template>
 
 <script>
-    import '../../assets/css/Header.css';
     export default {
         name: 'Header',
         data: () => ({
@@ -48,3 +47,28 @@
         }
     }
 </script>
+
+<style scoped>
+    #header{
+        z-index:100;
+        font-size:1.2em;
+        background-color: rgba(0,0,0,0.8);
+        box-shadow: 0 0 10px #141414;
+    }
+
+    .header-link:after{
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 2px;
+        background-color: white;
+        transition: all 0.2s ease-in-out;
+        transform: scale(0);
+    }
+
+    .header-link:hover:after{
+        transform: scale(1);
+    }
+</style>

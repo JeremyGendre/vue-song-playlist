@@ -1,5 +1,6 @@
 <template>
     <div class="d-flex flex-wrap">
+        <CreatePlaylistCard/>
         <HomePlaylistItem v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"/>
     </div>
 </template>
@@ -10,12 +11,13 @@
     import 'firebase/firestore';
     import HomePlaylistItem from "./HomePlaylistItem";
     import fetchRandomImage from "../../data/backgroundImage";
+    import CreatePlaylistCard from "./CreatePlaylistCard";
 
     const database = firebase.firestore();
 
     export default {
         name: 'Home',
-        components: {HomePlaylistItem},
+        components: {CreatePlaylistCard, HomePlaylistItem},
         data: () => ({
             playlists: [],
             bgImage: null
