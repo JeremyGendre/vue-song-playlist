@@ -156,7 +156,6 @@
                 const audioPathRef = storage.refFromURL(path);
                 const self = this;
                 audioPathRef.getDownloadURL().then(function(url) {
-                    console.log(url);
                     self.audioSong = new Audio(url);
                     self.setUpSong();
                     if(self.playing){
@@ -206,7 +205,9 @@
             },
             audioVolume(newVolume){
                 storeItem('volume', newVolume);
-                this.audioSong.volume = newVolume;
+                if(this.audioSong){
+                    this.audioSong.volume = newVolume;
+                }
             },
             audioLoop(newLoopValue){
                 this.audioSong.loop = newLoopValue;

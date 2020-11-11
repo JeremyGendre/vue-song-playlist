@@ -8,6 +8,7 @@ body{
 .font-bold{font-weight: bold;}
 
 .rounded{border-radius: 5px !important;}
+.rounded-full{border-radius: 9999px !important;}
 
 .flex-col{flex-direction: column;}
 .flex-row{flex-direction: row;}
