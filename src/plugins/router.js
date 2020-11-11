@@ -7,11 +7,13 @@ import Login from "../pages/userLifeCycle/Login";
 import Register from "../pages/userLifeCycle/Register";
 import Logout from "../pages/userLifeCycle/Logout";
 import PlaylistContainer from "../pages/playlist/PlaylistContainer";
+import NewPlaylist from "../pages/playlist/NewPlaylist";
 
 Vue.use(VueRouter);
 
 const routes = [
     { path: '/', name: 'home', component: Home },
+    { path: '/playlist/new', name: 'create_playlist', component: NewPlaylist },
     { path: '/playlist/:id', name: 'playlist', component: PlaylistContainer },
     { path: '/login', name: 'login', component: Login },
     { path: '/register', name: 'register', component: Register },
