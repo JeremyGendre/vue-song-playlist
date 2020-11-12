@@ -7,20 +7,21 @@
     >
         <v-list-item>
             <v-list-item-avatar>
-                <v-img src="https://randomuser.me/api/portraits/men/22.jpg"></v-img>
+                <v-img :src="(`https://randomuser.me/api/portraits/men/22.jpg`)"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
-                <v-list-item-title>{{ userName }}</v-list-item-title>
+                <v-list-item-title class="sidebar-profile-text">{{ userName }}</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
 
-        <v-divider/>
+        <v-divider class="my-4"/>
 
         <v-list dense>
             <v-list-item
                     v-for="item in navigationItems"
                     :key="item.title"
+                    class="mb-2"
                     link
             >
                 <v-list-item-icon>
@@ -28,7 +29,7 @@
                 </v-list-item-icon>
 
                 <v-list-item-content>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    <v-list-item-title class="sidebar-link-text">{{ item.title }}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
         </v-list>
@@ -39,7 +40,11 @@
     export default {
         name: 'Sidebar',
         data: () => ({
-            navigationItems: []
+            navigationItems: [
+                { icon: 'mdi-playlist-music', title: 'My playlists' },
+                { icon: 'mdi-file-music-outline', title: 'My songs' },
+                { icon: 'mdi-cog', title: 'Preferences' }
+            ]
         }),
         computed :{
             userName(){
@@ -52,5 +57,11 @@
 <style scoped>
     .app-sidebar{
         z-index: 150;
+    }
+    .sidebar-profile-text{
+        font-size:1.2em;
+    }
+    .sidebar-link-text{
+        font-size: 1.05em !important;
     }
 </style>
