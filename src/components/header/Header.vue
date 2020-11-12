@@ -4,7 +4,7 @@
             <v-btn
                     icon
                     color="white"
-                    @click="goHome"
+                    @click="displaySidebar"
             >
                 <v-icon>mdi-menu</v-icon>
             </v-btn>
@@ -41,8 +41,8 @@
                     this.logingOut = false;
                 }, 1000);
             },
-            goHome(){
-                this.$router.push('/');
+            displaySidebar(){
+                this.$store.commit('toggleSidebar');
             }
         }
     }

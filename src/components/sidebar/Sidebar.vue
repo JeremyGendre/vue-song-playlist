@@ -1,8 +1,9 @@
 <template>
     <v-navigation-drawer
-            v-model="sidebarActive"
+            v-model="$store.state.sidebarActive"
             absolute
             temporary
+            class="app-sidebar"
     >
         <v-list-item>
             <v-list-item-avatar>
@@ -43,10 +44,13 @@
         computed :{
             userName(){
                 return this.$store.state.user ? this.$store.state.user.displayName : '';
-            },
-            sidebarActive(){
-                return this.$store.state.sidebarActive;
             }
         }
     };
 </script>
+
+<style scoped>
+    .app-sidebar{
+        z-index: 150;
+    }
+</style>
