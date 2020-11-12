@@ -9,17 +9,21 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        user: null
+        user: null,
+        sidebarActive: false
     },
     mutations: {
         setUser (state, newUser) {
             state.user = newUser;
             storeItem('user', JSON.stringify(newUser));
         },
-        logout (state){
+        logout (state) {
             state.user = null;
             removeStoredItem('user');
             firebase.auth().signOut();
+        },
+        toggleSidebar (state) {
+            state.sidebarActive = !state.sidebarActive;
         }
     }
 });

@@ -37,6 +37,11 @@
                     type="success"
             >
                 Account successfully created, redirecting ...
+                <v-progress-linear
+                        indeterminate
+                        color="orange darken-2"
+                        class="mt-3"
+                ></v-progress-linear>
             </v-alert>
             <v-btn
                     :disabled="loading || !validForm || creationComplete"

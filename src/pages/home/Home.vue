@@ -35,7 +35,9 @@
         },
         created(){
             this.initializeBgImage();
-            database.collection('Playlist').where("userId", '==', firebase.auth().currentUser.uid)
+            database.collection('Playlist')
+                .where("userId", '==', firebase.auth().currentUser.uid)
+                .orderBy('name')
                 .get()
                 .then(querySnapshot => {
                     querySnapshot.forEach(doc => {

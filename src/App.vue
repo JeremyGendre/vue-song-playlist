@@ -5,6 +5,7 @@
         <div class="d-flex h-full flex-col">
             <div id="background" class="w-full self-stretch h-full fixed z-0"></div>
             <Header v-if="this.$store.state.user !== null"/>
+            <Sidebar/>
             <AppContent/>
         </div>
     </v-main>
@@ -22,16 +23,26 @@ import "firebase/firestore";
 import firebaseConfig from "./config/firebase";
 import Header from "./components/header/Header";
 import {updateBackground} from "./helpers/functions";
+import Sidebar from "./components/sidebar/Sidebar";
 firebase.initializeApp(firebaseConfig);
 
 export default {
     name: 'App',
     components: {
+        Sidebar,
         Header,
         AppContent,
     },
     created() {
         updateBackground(null);
+        const self = this;
+        firebase.auth().onAuthStateChanged(user => {
+            if(!user){
+                self.$store.commit('logout');
+            }else{
+                self.$store.commit('setUser', user);
+            }
+        })
     }
 };
 </script>

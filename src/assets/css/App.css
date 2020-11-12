@@ -39,6 +39,8 @@ body{
 .self-stretch{align-self: stretch;}
 
 .w-screen{width: 100vw;}
+.w-56{width: 14rem;}
+.w-64{width: 16rem;}
 .h-screen{height: 100vh;}
 
 .z-0{z-index: 0;}
