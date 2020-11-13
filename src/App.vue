@@ -5,8 +5,10 @@
         <div class="d-flex h-full flex-col">
             <div id="background" class="w-full self-stretch h-full fixed z-0"></div>
             <Header v-if="this.$store.state.user !== null"/>
-            <Sidebar/>
-            <AppContent/>
+            <div class="d-flex h-full relative">
+                <Sidebar/>
+                <AppContent/>
+            </div>
         </div>
     </v-main>
   </v-app>

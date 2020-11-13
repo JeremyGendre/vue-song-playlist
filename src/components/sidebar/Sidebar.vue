@@ -1,8 +1,8 @@
 <template>
     <v-navigation-drawer
             v-model="$store.state.sidebarActive"
-            absolute
-            temporary
+            mobile-breakpoint="500"
+            app
             class="app-sidebar"
     >
         <v-list-item>
@@ -50,7 +50,7 @@
         computed :{
             userName(){
                 return this.$store.state.user ? this.$store.state.user.displayName : '';
-            }
+            },
         }
     };
 </script>

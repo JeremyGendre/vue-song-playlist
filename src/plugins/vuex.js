@@ -10,7 +10,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         user: null,
-        sidebarActive: null
+        sidebarActive: true
     },
     mutations: {
         setUser (state, newUser) {
