@@ -6,7 +6,7 @@
                     color="white"
                     @click="displaySidebar"
             >
-                <v-icon>mdi-menu</v-icon>
+                <v-icon>{{ $store.state.sidebarActive ? 'mdi-chevron-left' : 'mdi-menu' }}</v-icon>
             </v-btn>
         </div>
         <div class="my-auto">
