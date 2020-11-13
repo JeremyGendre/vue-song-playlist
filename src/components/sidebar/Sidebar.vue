@@ -23,6 +23,7 @@
                     :key="item.title"
                     class="mb-2"
                     link
+                    :to="item.link"
             >
                 <v-list-item-icon>
                     <v-icon>{{ item.icon }}</v-icon>
@@ -41,9 +42,9 @@
         name: 'Sidebar',
         data: () => ({
             navigationItems: [
-                { icon: 'mdi-playlist-music', title: 'My playlists' },
-                { icon: 'mdi-file-music-outline', title: 'My songs' },
-                { icon: 'mdi-cog', title: 'Preferences' }
+                { icon: 'mdi-playlist-music', title: 'My playlists', link: '/' },
+                { icon: 'mdi-file-music-outline', title: 'My songs', link: '/songs' },
+                { icon: 'mdi-cog', title: 'Settings', link: '/settings' }
             ]
         }),
         computed :{

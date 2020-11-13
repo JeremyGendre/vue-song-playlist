@@ -15,7 +15,7 @@
     import firebase from 'firebase/app';
     import 'firebase/firestore';
     import HomePlaylistItem from "./HomePlaylistItem";
-    import fetchRandomImage from "../../data/backgroundImage";
+    import {DefaultBackground} from "../../data/backgroundImage";
     import CreatePlaylistCard from "./CreatePlaylistCard";
 
     const database = firebase.firestore();
@@ -50,7 +50,7 @@
         },
         methods: {
             async initializeBgImage(){
-                this.bgImage = await fetchRandomImage();
+                this.bgImage = DefaultBackground;
             },
             deletePlaylist(id){
                 this.playlists = this.playlists.filter(playlist => playlist.id !== id);
