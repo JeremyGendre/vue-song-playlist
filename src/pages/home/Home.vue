@@ -11,11 +11,9 @@
 </template>
 
 <script>
-    import {updateBackground} from "../../helpers/functions";
     import firebase from 'firebase/app';
     import 'firebase/firestore';
     import HomePlaylistItem from "./HomePlaylistItem";
-    import {DefaultBackground} from "../../data/backgroundImage";
     import CreatePlaylistCard from "./CreatePlaylistCard";
 
     const database = firebase.firestore();
@@ -25,7 +23,6 @@
         components: {CreatePlaylistCard, HomePlaylistItem},
         data: () => ({
             playlists: [],
-            bgImage: null,
             loading: true
         }),
         beforeCreate(){
@@ -34,7 +31,6 @@
             }
         },
         created(){
-            this.initializeBgImage();
             database.collection('Playlist')
                 .where("userId", '==', firebase.auth().currentUser.uid)
                 .orderBy('name')
@@ -49,16 +45,8 @@
                 }).finally(() => { this.loading = false })
         },
         methods: {
-            async initializeBgImage(){
-                this.bgImage = DefaultBackground;
-            },
             deletePlaylist(id){
                 this.playlists = this.playlists.filter(playlist => playlist.id !== id);
-            }
-        },
-        watch: {
-            bgImage(newValue){
-                updateBackground(newValue);
             }
         }
     };

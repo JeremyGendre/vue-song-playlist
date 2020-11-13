@@ -14,6 +14,8 @@
     import firebase from 'firebase/app';
     import 'firebase/firestore';
     import "firebase/auth";
+    import {updateBackground} from "../helpers/functions";
+    import {DefaultBackground} from "../data/backgroundImage";
 
     export default {
         name: "AppContent",
@@ -27,6 +29,7 @@
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
                         self.$store.commit('setUser', user);
+                        updateBackground(DefaultBackground);
                     } else {
                         if(self.$router.currentRoute.path !== '/register'){
                             self.$router.push('/logout');
@@ -38,6 +41,6 @@
         },
         created() {
             this.setUpConnectedUser();
-        }
+        },
     };
 </script>

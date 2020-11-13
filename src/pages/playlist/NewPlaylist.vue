@@ -36,7 +36,7 @@
                     text
                     type="success"
             >
-                Account successfully created, redirecting ...
+                Playlist successfully created, redirecting ...
                 <v-progress-linear
                         indeterminate
                         color="orange darken-2"

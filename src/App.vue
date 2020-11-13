@@ -22,7 +22,6 @@ import "firebase/auth";
 import "firebase/firestore";
 import firebaseConfig from "./config/firebase";
 import Header from "./components/header/Header";
-import {updateBackground} from "./helpers/functions";
 import Sidebar from "./components/sidebar/Sidebar";
 firebase.initializeApp(firebaseConfig);
 
@@ -34,7 +33,6 @@ export default {
         AppContent,
     },
     created() {
-        updateBackground(null);
         const self = this;
         firebase.auth().onAuthStateChanged(user => {
             if(!user){
