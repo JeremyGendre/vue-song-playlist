@@ -6,7 +6,7 @@
             <div id="background" class="w-full self-stretch h-full fixed z-0"></div>
             <Header v-if="this.$store.state.user !== null"/>
             <div class="d-flex h-full relative">
-                <Sidebar/>
+                <Sidebar v-if="$store.state.user"/>
                 <AppContent/>
             </div>
         </div>
