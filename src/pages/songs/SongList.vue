@@ -4,23 +4,40 @@
             :items="songs"
             :loading="loading || loadingPlaylists"
             :items-per-page="10"
+            v-model="selectedSongs"
+            show-select
+            :single-select="false"
+            item-key="id"
             class="elevation-1 rounded"
             mobile-breakpoint="500"
     >
-        <template v-slot:item="row">
-            <tr class="text-left">
-                <td>{{row.item.artist}}</td>
-                <td>{{row.item.title}}</td>
-                <td>
-                    <v-btn
-                            icon
-                            color="white"
-                            @click="onActionClick(row.item)"
-                    >
-                        <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
-                </td>
-            </tr>
+        <template v-slot:top>
+            <div class="text-left">
+                <v-menu
+                        bottom
+                        left
+                        top
+                        offset-y
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                                fab
+                                small
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                                class="ma-2"
+                        >
+                            <v-icon>mdi-dots-vertical</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-list class="rounded song-list-menu">
+                        <v-list-item link @click="onAddPlaylist()">Add to</v-list-item>
+                        <v-list-item link @click="onDelete()">Delete</v-list-item>
+                    </v-list>
+                </v-menu>
+            </div>
         </template>
     </v-data-table>
 </template>
@@ -49,7 +66,8 @@
                 },
             ],
             loadingPlaylists: true,
-            playlists : []
+            playlists : [],
+            selectedSongs: []
         }),
         created(){
             const self = this;
@@ -64,9 +82,23 @@
                 .finally(() => { this.loadingPlaylists = false; });
         },
         methods: {
-            onActionClick(song) {
-                console.log(song);
+            onDelete() {
+                console.log('delete');
+            },
+            onAddPlaylist() {
+                console.log('add');
+            }
+        },
+        watch: {
+            selectedSongs(newSongs){
+                console.log(newSongs);
             }
         }
     };
 </script>
+
+<style scoped>
+    .song-list-menu{
+        z-index:200;
+    }
+</style>
