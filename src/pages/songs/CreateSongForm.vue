@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mb-4 pa-4 rounded">
+    <v-card class="mb-4 pa-4 rounded" elevation="10">
         <v-form
                 id="new-song-form"
                 ref="newSongForm"
@@ -73,6 +73,13 @@
 </template>
 
 <script>
+    import firebase from 'firebase/app';
+    import 'firebase/firestore';
+    import 'firebase/storage';
+
+    const storageRef = firebase.storage().ref();
+    const database = firebase.firestore();
+
     export default {
         name: 'CreateSongForm',
         props: {
@@ -88,7 +95,7 @@
                 value => !!value || 'This field is required',
                 value => value.length >= 1 || 'Min 1 characters',
             ],
-            file: null,
+            file: undefined,
             fileRules: [
                 value => !value || value.size < 100000000 || 'Avatar size should be less than 100 MB!',
             ],
@@ -96,17 +103,57 @@
         }),
         methods: {
             createSong(){
+                if(this.validateForm()){
+                    this.loading = true;
+                    const self = this;
+                    const fileName = new Date() + '-' + this.file.name;
+                    const metaData = {
+                        contentType: this.file.type
+                    };
+                    //upload
+                    storageRef
+                        .child(fileName)
+                        .put(this.file, metaData)
+                        .then(snapshot => {
+                            //get URL
+                            snapshot.ref
+                                .getDownloadURL()
+                                .then(url => {
+                                    const newSongObj = {
+                                        title: self.title,
+                                        artist: self.artist,
+                                        userId: firebase.auth().currentUser.uid,
+                                        path: url
+                                    };
+                                    //insert in collection Song the new object
+                                    database
+                                        .collection('Song')
+                                        .add(newSongObj)
+                                        .then(() => {
+                                            self.onComplete(newSongObj);
+                                        })
+                                        .catch(self.handleError)
+                                        .finally(() => { this.loading = false });
+                                })
+                                .catch(self.handleError);
+                        })
+                        .catch(self.handleError);
+                }
+            },
+            validateForm(){
                 this.error= null;
                 if(this.$refs.newSongForm.validate()){
                     if(this.file){
-                        this.loading = true;
-                        setTimeout(() => {
-                            this.onClose();
-                        }, 2000)
+                        return true;
                     }else{
                         this.error = 'You must select a file to upload !';
                     }
                 }
+                return false;
+            },
+            handleError(error){
+                this.loading = false;
+                console.error(error);
             }
         }
     };

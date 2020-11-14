@@ -1,7 +1,7 @@
 <template>
     <Loading v-if="loadingData" no-container/>
     <div v-else>
-        <CreateSong/>
+        <CreateSong :on-new-song="handleNewSong"/>
         <Songlist v-if="songs.length > 0" :songs="songs"/>
         <div v-else>No songs found</div>
     </div>
@@ -28,6 +28,8 @@
             database
                 .collection('Song')
                 .where('userId', '==', this.$store.state.user.uid)
+                .orderBy('artist')
+                .orderBy('title')
                 .get()
                 .then( result => {
                     const songs = [];
@@ -38,12 +40,11 @@
                 })
                 .catch(console.error)
                 .finally(() => { this.loadingData = false })
+        },
+        methods: {
+            handleNewSong(newSong){
+                this.songs = [...this.songs, newSong];
+            }
         }
     };
 </script>
-
-<style scoped>
-    .new-song-btn:hover{
-        opacity: 1;
-    }
-</style>

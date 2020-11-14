@@ -16,6 +16,9 @@
     export default {
         name: 'CreateSong',
         components: {CreateSongForm},
+        props:{
+            onNewSong: Function
+        },
         data: () => ({
             showForm: false
         }),
@@ -28,11 +31,16 @@
             handleCloseForm(){
                 this.showForm = false;
             },
-            handleCompleteForm(){
-                //add data ...
-
+            handleCompleteForm(newSong){
+                this.onNewSong(newSong);
                 this.showForm = false;
             },
         }
     };
 </script>
+
+<style scoped>
+    .new-song-btn:hover{
+        opacity: 1;
+    }
+</style>
