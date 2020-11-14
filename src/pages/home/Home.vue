@@ -15,6 +15,7 @@
     import 'firebase/firestore';
     import HomePlaylistItem from "./HomePlaylistItem";
     import CreatePlaylistCard from "./CreatePlaylistCard";
+    import {handleQuerySnapshot} from "../../helpers/functions";
 
     const database = firebase.firestore();
 
@@ -31,14 +32,13 @@
             }
         },
         created(){
+            const self = this;
             database.collection('Playlist')
                 .where("userId", '==', firebase.auth().currentUser.uid)
                 .orderBy('name')
                 .get()
                 .then(querySnapshot => {
-                    querySnapshot.forEach(doc => {
-                        this.playlists = [...this.playlists, { id: doc.id, ...doc.data() }];
-                    });
+                    self.playlists = handleQuerySnapshot(querySnapshot);
                 })
                 .catch(error => {
                     console.error(error);

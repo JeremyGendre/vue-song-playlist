@@ -40,3 +40,17 @@ export function updateBackground(url)
         background.style.backgroundImage = `url('${url}')`;
     }
 }
+
+/**
+ * Helps to build a full object based on a querySnapshot response
+ * @param querySnapshot
+ * @returns {[]}
+ */
+export function handleQuerySnapshot(querySnapshot)
+{
+    const result = [];
+    querySnapshot.forEach(doc => {
+        result.push({ id: doc.id, ...doc.data() });
+    });
+    return result;
+}

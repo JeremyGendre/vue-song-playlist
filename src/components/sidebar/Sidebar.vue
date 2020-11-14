@@ -1,7 +1,7 @@
 <template>
     <v-navigation-drawer
             v-model="$store.state.sidebarActive"
-            mobile-breakpoint="500"
+            mobile-breakpoint="700"
             app
             class="app-sidebar"
     >

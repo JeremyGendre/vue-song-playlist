@@ -129,8 +129,8 @@
                                     database
                                         .collection('Song')
                                         .add(newSongObj)
-                                        .then(() => {
-                                            self.onComplete(newSongObj);
+                                        .then((docRef) => {
+                                            self.onComplete({ ...newSongObj, id: docRef.id });
                                         })
                                         .catch(self.handleError)
                                         .finally(() => { this.loading = false });
