@@ -20,15 +20,7 @@
                     label="Name"
                     required
             ></v-text-field>
-            <v-alert
-                    dense
-                    outlined
-                    type="error"
-                    class="rounded"
-                    v-if="error"
-            >
-                {{ error !== '' ? error : 'An error occured, maybe try again after refreshing the page.' }}
-            </v-alert>
+            <ErrorAlert :error="error"/>
             <v-alert
                     v-if="creationComplete"
                     dense
@@ -60,11 +52,13 @@
 <script>
     import firebase from 'firebase/app';
     import 'firebase/firestore';
+    import ErrorAlert from "../../components/alerts/ErrorAlert";
 
     const database = firebase.firestore();
 
     export default {
         name: 'NewPlaylist',
+        components: {ErrorAlert},
         data : ()=>({
             loading: false,
             validForm: true,

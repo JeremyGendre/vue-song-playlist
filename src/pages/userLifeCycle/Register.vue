@@ -42,15 +42,7 @@
                     required
                     @click:append="showPassword = !showPassword"
             ></v-text-field>
-            <v-alert
-                    dense
-                    outlined
-                    type="error"
-                    class="rounded"
-                    v-if="error"
-            >
-                {{ error !== '' ? error : 'An error occured, maybe try again after refreshing the page.' }}
-            </v-alert>
+            <ErrorAlert :error="error"/>
             <v-btn
                     :disabled="loading || !validForm"
                     :loading="loading"
@@ -75,12 +67,13 @@
     import firebase from 'firebase/app';
     import 'firebase/firestore';
     import ConfirmRegistration from "./ConfirmRegistration";
+    import ErrorAlert from "../../components/alerts/ErrorAlert";
 
     const database = firebase.firestore();
 
     export default {
         name: 'Register',
-        components: {ConfirmRegistration},
+        components: {ErrorAlert, ConfirmRegistration},
         beforeCreate() {
             if(this.$store.state.user !== null){
                 this.$router.push('/');

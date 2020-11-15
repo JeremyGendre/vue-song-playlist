@@ -34,15 +34,7 @@
                         :rules="fileRules"
                 ></v-file-input>
             </div>
-            <v-alert
-                    dense
-                    outlined
-                    type="error"
-                    class="rounded mt-2"
-                    v-if="error"
-            >
-                {{ error !== '' ? error : 'An error occured, maybe try again after refreshing the page.' }}
-            </v-alert>
+            <ErrorAlert :error="error"/>
             <v-progress-linear
                     v-if="loading"
                     indeterminate
@@ -76,12 +68,14 @@
     import firebase from 'firebase/app';
     import 'firebase/firestore';
     import 'firebase/storage';
+    import ErrorAlert from "../../components/alerts/ErrorAlert";
 
     const storageRef = firebase.storage().ref();
     const database = firebase.firestore();
 
     export default {
         name: 'CreateSongForm',
+        components: {ErrorAlert},
         props: {
             onClose: Function,
             onComplete: Function
