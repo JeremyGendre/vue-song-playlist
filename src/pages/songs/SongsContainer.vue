@@ -5,7 +5,6 @@
                 :songs="songs"
                 :loading="loadingData"
                 :on-delete-songs="handleDeleteSongs"
-                :on-add-songs-to-playlist="handleAddSongsToPlaylists"
         />
     </div>
 </template>
@@ -45,10 +44,8 @@
                 this.songs = [...this.songs, newSong];
             },
             handleDeleteSongs(songsToDelete) {
+                //remove data
                 console.log(songsToDelete);
-            },
-            handleAddSongsToPlaylists(songsToAdd, playlists) {
-                console.log(songsToAdd, playlists)
             }
         }
     };

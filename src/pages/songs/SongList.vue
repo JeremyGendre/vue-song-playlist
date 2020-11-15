@@ -44,7 +44,7 @@
                                         v-bind="attrs"
                                         v-on="on"
                                         link
-                                        @click="onAddPlaylist"
+                                        @click="addDialog = true"
                                 >
                                     Add to playlist
                                 </v-list-item>
@@ -73,12 +73,7 @@
                                     >
                                         Confirm
                                     </v-btn>
-                                    <v-btn
-                                            text
-                                            @click="closeModal"
-                                    >
-                                        Cancel
-                                    </v-btn>
+                                    <v-btn text @click="closeModal">Cancel</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -93,7 +88,7 @@
                                         v-bind="attrs"
                                         v-on="on"
                                         link
-                                        @click="onDelete"
+                                        @click="deleteDialog = true;"
                                 >
                                     Delete
                                 </v-list-item>
@@ -109,12 +104,7 @@
                                     >
                                         Confirm
                                     </v-btn>
-                                    <v-btn
-                                            text
-                                            @click="closeModal"
-                                    >
-                                        Cancel
-                                    </v-btn>
+                                    <v-btn text @click="closeModal">Cancel</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -137,7 +127,6 @@
         props: {
             songs: Array,
             loading: Boolean,
-            onAddSongsToPlaylist: Function,
             onDeleteSongs: Function
         },
         data: () => ({
@@ -174,17 +163,13 @@
                 this.addDialog = false;
                 this.deleteDialog = false;
             },
-            onDelete() {
-                this.deleteDialog = true;
+            async onConfirmDelete(){
+                const del = await this.onDeleteSongs(this.selectedSongs);
+                del.then(() => this.closeModal());
             },
-            onConfirmDelete(){
-                this.onDeleteSongs(this.selectedSongs);
-            },
-            onAddPlaylist() {
-                this.addDialog = true;
-            },
-            onConfirmAddToPlaylist(){
-                this.onAddSongsToPlaylist(this.selectedSongs, this.selectedPlaylists);
+            async onConfirmAddToPlaylist(){
+                const add = await this.onAddSongsToPlaylist(this.selectedSongs, this.selectedPlaylists);
+                add.then(() => this.closeModal());
             },
         }
     };

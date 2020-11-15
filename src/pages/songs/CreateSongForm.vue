@@ -106,13 +106,13 @@
                 if(this.validateForm()){
                     this.loading = true;
                     const self = this;
-                    const fileName = new Date() + '-' + this.file.name;
+                    const fileName = this.$store.state.user.uid + '-' + this.file.name;
                     const metaData = {
                         contentType: this.file.type
                     };
                     //upload
                     storageRef
-                        .child(fileName)
+                        .child('audio/' + fileName)
                         .put(this.file, metaData)
                         .then(snapshot => {
                             //get URL
@@ -123,6 +123,7 @@
                                         title: self.title,
                                         artist: self.artist,
                                         userId: firebase.auth().currentUser.uid,
+                                        fileName: fileName,
                                         path: url
                                     };
                                     //insert in collection Song the new object
