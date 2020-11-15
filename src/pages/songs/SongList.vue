@@ -21,6 +21,7 @@
                 >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
+                                :disabled="selectedSongs.length === 0"
                                 fab
                                 small
                                 dark
@@ -33,8 +34,90 @@
                     </template>
 
                     <v-list class="rounded song-list-menu">
-                        <v-list-item link @click="onAddPlaylist()">Add to</v-list-item>
-                        <v-list-item link @click="onDelete()">Delete</v-list-item>
+                        <v-dialog
+                                v-model="addDialog"
+                                persistent
+                                max-width="290"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-list-item
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        link
+                                        @click="onAddPlaylist"
+                                >
+                                    Add to playlist
+                                </v-list-item>
+                            </template>
+                            <v-card class="pt-4" outlined color="blue-grey darken-4">
+                                <v-card-text>
+                                    <v-select
+                                            v-if="playlists.length > 0"
+                                            v-model="selectedPlaylists"
+                                            :items="playlists"
+                                            item-text="name"
+                                            item-value="id"
+                                            label="Playlists"
+                                            multiple
+                                            chips
+                                    ></v-select>
+                                    <div v-else>No playlists found</div>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                            color="primary"
+                                            text
+                                            :disabled="playlists.length <= 0 || selectedPlaylists.length <= 0"
+                                            @click="onConfirmAddToPlaylist"
+                                    >
+                                        Confirm
+                                    </v-btn>
+                                    <v-btn
+                                            text
+                                            @click="closeModal"
+                                    >
+                                        Cancel
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+
+                        <v-dialog
+                                v-model="deleteDialog"
+                                persistent
+                                max-width="290"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-list-item
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        link
+                                        @click="onDelete"
+                                >
+                                    Delete
+                                </v-list-item>
+                            </template>
+                            <v-card class="pt-4" outlined color="blue-grey darken-4">
+                                <v-card-text>Are you sure to delete the selected songs ?</v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                            color="primary"
+                                            text
+                                            @click="onConfirmDelete"
+                                    >
+                                        Confirm
+                                    </v-btn>
+                                    <v-btn
+                                            text
+                                            @click="closeModal"
+                                    >
+                                        Cancel
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                     </v-list>
                 </v-menu>
             </div>
@@ -53,7 +136,9 @@
         name: 'SongList',
         props: {
             songs: Array,
-            loading: Boolean
+            loading: Boolean,
+            onAddSongsToPlaylist: Function,
+            onDeleteSongs: Function
         },
         data: () => ({
             tableHeader: [
@@ -67,7 +152,10 @@
             ],
             loadingPlaylists: true,
             playlists : [],
-            selectedSongs: []
+            selectedSongs: [],
+            selectedPlaylists: [],
+            addDialog: false,
+            deleteDialog: false
         }),
         created(){
             const self = this;
@@ -82,17 +170,22 @@
                 .finally(() => { this.loadingPlaylists = false; });
         },
         methods: {
+            closeModal(){
+                this.addDialog = false;
+                this.deleteDialog = false;
+            },
             onDelete() {
-                console.log('delete');
+                this.deleteDialog = true;
+            },
+            onConfirmDelete(){
+                this.onDeleteSongs(this.selectedSongs);
             },
             onAddPlaylist() {
-                console.log('add');
-            }
-        },
-        watch: {
-            selectedSongs(newSongs){
-                console.log(newSongs);
-            }
+                this.addDialog = true;
+            },
+            onConfirmAddToPlaylist(){
+                this.onAddSongsToPlaylist(this.selectedSongs, this.selectedPlaylists);
+            },
         }
     };
 </script>
