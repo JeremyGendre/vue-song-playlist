@@ -44,8 +44,7 @@
                 this.songs = [...this.songs, newSong];
             },
             handleDeleteSongs(songsToDelete) {
-                //remove data
-                console.log(songsToDelete);
+                this.songs = this.songs.filter(song => !songsToDelete.includes(song));
             }
         }
     };

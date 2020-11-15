@@ -47,6 +47,8 @@ body{
 .z-10{z-index: 10;}
 .z-50{z-index: 50;}
 
+.break-all{ word-break: break-all;}
+
 
 #background{
     background-size: cover;

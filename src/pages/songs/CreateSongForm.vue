@@ -58,7 +58,7 @@
                         type="submit"
                         form="new-song-form"
                 >
-                    Add
+                    Upload
                 </v-btn>
                 <v-btn
                         :disabled="loading"

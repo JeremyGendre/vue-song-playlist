@@ -49,7 +49,14 @@
                                     Add to playlist
                                 </v-list-item>
                             </template>
-                            <v-card class="pt-4" outlined color="blue-grey darken-4">
+                            <v-card class="pt-4" :loading="loadingDialog" outlined color="blue-grey darken-4">
+                                <template slot="progress">
+                                    <v-progress-linear
+                                            color="secondary"
+                                            class="my-2"
+                                            indeterminate
+                                    ></v-progress-linear>
+                                </template>
                                 <v-card-text>
                                     <v-select
                                             v-if="playlists.length > 0"
@@ -62,18 +69,25 @@
                                             chips
                                     ></v-select>
                                     <div v-else>No playlists found</div>
+                                    <ErrorAlert :error="dialogError"/>
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn
                                             color="primary"
                                             text
-                                            :disabled="playlists.length <= 0 || selectedPlaylists.length <= 0"
+                                            :loading="loadingDialog"
+                                            :disabled="playlists.length <= 0 || selectedPlaylists.length <= 0 || loadingDialog"
                                             @click="onConfirmAddToPlaylist"
                                     >
                                         Confirm
                                     </v-btn>
-                                    <v-btn text @click="closeModal">Cancel</v-btn>
+                                    <v-btn text
+                                           @click="closeModal"
+                                           :disabled="loadingDialog"
+                                    >
+                                        Cancel
+                                    </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -94,17 +108,22 @@
                                 </v-list-item>
                             </template>
                             <v-card class="pt-4" outlined color="blue-grey darken-4">
-                                <v-card-text>Are you sure to delete the selected songs ?</v-card-text>
+                                <v-card-text>
+                                    Are you sure to delete the selected songs ?
+                                    <ErrorAlert :error="dialogError"/>
+                                </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn
                                             color="primary"
                                             text
+                                            :loading="loadingDialog"
+                                            :disabled="loadingDialog"
                                             @click="onConfirmDelete"
                                     >
                                         Confirm
                                     </v-btn>
-                                    <v-btn text @click="closeModal">Cancel</v-btn>
+                                    <v-btn text @click="closeModal" :disabled="loadingDialog">Cancel</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -118,12 +137,16 @@
 <script>
     import firebase from 'firebase/app';
     import 'firebase/firestore';
+    import 'firebase/storage';
     import {handleQuerySnapshot} from "../../helpers/functions";
+    import ErrorAlert from "../../components/alerts/ErrorAlert";
 
     const database = firebase.firestore();
+    const storageRef = firebase.storage().ref();
 
     export default {
         name: 'SongList',
+        components: {ErrorAlert},
         props: {
             songs: Array,
             loading: Boolean,
@@ -144,7 +167,9 @@
             selectedSongs: [],
             selectedPlaylists: [],
             addDialog: false,
-            deleteDialog: false
+            deleteDialog: false,
+            loadingDialog: false,
+            dialogError: null
         }),
         created(){
             const self = this;
@@ -160,16 +185,56 @@
         },
         methods: {
             closeModal(){
+                this.dialogError = null;
+                this.loadingDialog = false;
                 this.addDialog = false;
                 this.deleteDialog = false;
             },
-            async onConfirmDelete(){
-                const del = await this.onDeleteSongs(this.selectedSongs);
-                del.then(() => this.closeModal());
+            onConfirmDelete(){
+                const self = this;
+                this.loadingDialog = true;
+                this.dialogError = null;
+                const promises = [];
+                const songIds = [];
+                this.selectedSongs.forEach(songToDelete => {
+                    const fileRef = storageRef.child('audio/' + songToDelete.fileName);
+                    promises.push(fileRef.delete());
+                    songIds.push(songToDelete.id);
+                });
+                Promise.all(promises)
+                    .then(() => {
+                        self.deleteSongInDB(songIds);
+                    })
+                    .catch(error => {
+                        if(error.code === 'storage/object-not-found'){
+                            self.deleteSongInDB(songIds);
+                        }else{
+                            console.log(error.code, error.message);
+                            self.loadingDialog = false;
+                            self.dialogError = (error.message ? error.message : 'An error occurred during song\'s file deletion')
+                        }
+                    })
             },
-            async onConfirmAddToPlaylist(){
-                const add = await this.onAddSongsToPlaylist(this.selectedSongs, this.selectedPlaylists);
-                add.then(() => this.closeModal());
+            deleteSongInDB(songIds){
+                const self= this;
+                const batch = database.batch();
+                songIds.forEach(id => {
+                    batch.delete(database.collection("Song").doc(id));
+                });
+                batch.commit()
+                    .then(function () {
+                        self.onDeleteSongs(self.selectedSongs);
+                        self.closeModal();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        self.dialogError = (error.reason ? error.reason : 'An error occurred during song\'s deletion') ;
+                    })
+                    .finally(() => { self.loadingDialog = false; self.selectedSongs = [] });
+            },
+            onConfirmAddToPlaylist(){
+                //request here
+                this.closeModal()
             },
         }
     };
