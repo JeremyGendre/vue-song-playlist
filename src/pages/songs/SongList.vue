@@ -10,9 +10,10 @@
             item-key="id"
             class="elevation-1 rounded"
             mobile-breakpoint="500"
+            :search="search"
     >
         <template v-slot:top>
-            <div class="text-left">
+            <div class="text-left d-flex">
                 <v-menu
                         bottom
                         left
@@ -145,6 +146,14 @@
                         </v-dialog>
                     </v-list>
                 </v-menu>
+                <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        class="my-auto pt-0 mr-2"
+                        label="Search"
+                        single-line
+                        hide-details
+                ></v-text-field>
             </div>
         </template>
     </v-data-table>
@@ -187,7 +196,8 @@
             deleteDialog: false,
             loadingDialog: false,
             dialogError: null,
-            addToPlaylistComplete: false
+            addToPlaylistComplete: false,
+            search: ''
         }),
         created(){
             const self = this;
