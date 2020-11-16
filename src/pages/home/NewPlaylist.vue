@@ -14,29 +14,14 @@
         >
             <div class="font-bold">New playlist !</div>
             <v-text-field
-                    v-if="!creationComplete"
                     v-model="name"
                     :rules="nameRules"
                     label="Name"
                     required
             ></v-text-field>
             <ErrorAlert :error="error"/>
-            <v-alert
-                    v-if="creationComplete"
-                    dense
-                    class="mt-4"
-                    text
-                    type="success"
-            >
-                Playlist successfully created, redirecting ...
-                <v-progress-linear
-                        indeterminate
-                        color="orange darken-2"
-                        class="mt-3"
-                ></v-progress-linear>
-            </v-alert>
             <v-btn
-                    :disabled="loading || !validForm || creationComplete"
+                    :disabled="loading || !validForm"
                     :loading="loading"
                     color="primary"
                     class="mt-4 rounded my-auto"
@@ -46,8 +31,8 @@
                 Create
             </v-btn>
             <v-btn
-                    @click="onCancel"
-                    :disabled="loading || creationComplete"
+                    @click="closeCard"
+                    :disabled="loading"
                     class="mt-4 rounded my-auto ml-2"
             >
                 Cancel
@@ -67,7 +52,8 @@
         name: 'NewPlaylist',
         components: {ErrorAlert},
         props: {
-            onCancel: Function
+            closeCard: Function,
+            onCreation: Function
         },
         data : ()=>({
             loading: false,
@@ -92,14 +78,13 @@
                     };
                     database.collection('Playlist')
                         .add(docData)
-                        .then(() => {
-                            self.name = '';
-                            self.creationComplete = true;
-                            setTimeout(() => {
-                                self.$router.push('/');
-                            }, 2000);
+                        .then(docRef => {
+                            self.closeCard();
+                            self.onCreation({ id: docRef.id, ...docData});
                         })
-                        .catch(console.error)
+                        .catch(error => {
+                            self.error = error.message ? error.message : 'An error occurred during the playlist\'s creation';
+                        })
                         .finally(() => {this.loading = false});
                 }
             }

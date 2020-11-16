@@ -1,7 +1,10 @@
 <template>
     <div>
         <div class="mb-4">
-            <NewPlaylist v-if="creating" :on-cancel="handleCreationCancel"/>
+            <NewPlaylist v-if="creating"
+                         :close-card="closeCreationForm"
+                         :on-creation="handleNewPlaylist"
+            />
             <v-btn v-else @click="creating = true" class="rounded opacity-75 new-playlist-btn">
                 New playlist
                 <v-icon>mdi-plus</v-icon>
@@ -58,8 +61,11 @@
             deletePlaylist(id){
                 this.playlists = this.playlists.filter(playlist => playlist.id !== id);
             },
-            handleCreationCancel(){
+            closeCreationForm(){
                 this.creating = false
+            },
+            handleNewPlaylist(newPlaylist){
+                this.playlists = [ ...this.playlists, newPlaylist ];
             }
         }
     };
