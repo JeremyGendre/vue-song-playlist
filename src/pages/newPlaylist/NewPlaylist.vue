@@ -45,6 +45,13 @@
             >
                 Create
             </v-btn>
+            <v-btn
+                    @click="onCancel"
+                    :disabled="loading || creationComplete"
+                    class="mt-4 rounded my-auto ml-2"
+            >
+                Cancel
+            </v-btn>
         </v-form>
     </v-card>
 </template>
@@ -59,6 +66,9 @@
     export default {
         name: 'NewPlaylist',
         components: {ErrorAlert},
+        props: {
+            onCancel: Function
+        },
         data : ()=>({
             loading: false,
             validForm: true,

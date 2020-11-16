@@ -1,15 +1,19 @@
 <template>
-    <router-link to="/playlist/new" class="no-link ma-auto">
-        <v-btn class="rounded opacity-75 new-playlist-btn">
-            New playlist
-            <v-icon>mdi-plus</v-icon>
-        </v-btn>
-    </router-link>
+    <NewPlaylist v-if="creating" :on-cancel="() => {this.creating = false}"/>
+    <v-btn v-else @click="creating = true" class="rounded opacity-75 new-playlist-btn">
+        New playlist
+        <v-icon>mdi-plus</v-icon>
+    </v-btn>
 </template>
 
 <script>
+    import NewPlaylist from "../newPlaylist/NewPlaylist";
     export default {
-        name: 'CreatePlaylistCard'
+        name: 'CreatePlaylistCard',
+        components: {NewPlaylist},
+        data: () => ({
+            creating: false
+        })
     };
 </script>
 

@@ -1,12 +1,16 @@
 <template>
-    <div class="d-flex flex-wrap">
-        <CreatePlaylistCard/>
-        <div v-if="loading" class="ma-auto ml-8 loading-div px-4 py-2">Fetching data ...</div>
-        <HomePlaylistItem v-for="playlist in playlists"
-                          :key="playlist.id"
-                          :playlist="playlist"
-                          :on-delete="deletePlaylist"
-        />
+    <div>
+        <div class="mb-4">
+            <CreatePlaylistCard/>
+        </div>
+        <div class="d-flex flex-wrap">
+            <Loading v-if="loading" no-container/>
+            <HomePlaylistItem v-for="playlist in playlists"
+                              :key="playlist.id"
+                              :playlist="playlist"
+                              :on-delete="deletePlaylist"
+            />
+        </div>
     </div>
 </template>
 
@@ -16,12 +20,13 @@
     import HomePlaylistItem from "./HomePlaylistItem";
     import CreatePlaylistCard from "./CreatePlaylistCard";
     import {handleQuerySnapshot} from "../../helpers/functions";
+    import Loading from "../loading/Loading";
 
     const database = firebase.firestore();
 
     export default {
         name: 'Home',
-        components: {CreatePlaylistCard, HomePlaylistItem},
+        components: {Loading, CreatePlaylistCard, HomePlaylistItem},
         data: () => ({
             playlists: [],
             loading: true
