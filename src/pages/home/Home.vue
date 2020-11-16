@@ -1,7 +1,11 @@
 <template>
     <div>
         <div class="mb-4">
-            <CreatePlaylistCard/>
+            <NewPlaylist v-if="creating" :on-cancel="handleCreationCancel"/>
+            <v-btn v-else @click="creating = true" class="rounded opacity-75 new-playlist-btn">
+                New playlist
+                <v-icon>mdi-plus</v-icon>
+            </v-btn>
         </div>
         <div class="d-flex flex-wrap">
             <Loading v-if="loading" no-container/>
@@ -18,18 +22,19 @@
     import firebase from 'firebase/app';
     import 'firebase/firestore';
     import HomePlaylistItem from "./HomePlaylistItem";
-    import CreatePlaylistCard from "./CreatePlaylistCard";
     import {handleQuerySnapshot} from "../../helpers/functions";
     import Loading from "../loading/Loading";
+    import NewPlaylist from "./NewPlaylist";
 
     const database = firebase.firestore();
 
     export default {
         name: 'Home',
-        components: {Loading, CreatePlaylistCard, HomePlaylistItem},
+        components: {NewPlaylist, Loading, HomePlaylistItem},
         data: () => ({
             playlists: [],
-            loading: true
+            loading: true,
+            creating: false
         }),
         beforeCreate(){
             if(this.$store.state.user === null){
@@ -52,14 +57,16 @@
         methods: {
             deletePlaylist(id){
                 this.playlists = this.playlists.filter(playlist => playlist.id !== id);
+            },
+            handleCreationCancel(){
+                this.creating = false
             }
         }
     };
 </script>
 
 <style scoped>
-    .loading-div{
-        background-color: #212121;
-        color: white;
+    .new-playlist-btn:hover{
+        opacity: 1;
     }
 </style>
