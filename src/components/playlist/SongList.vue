@@ -7,9 +7,13 @@
                         v-model="selectedItem"
                         color="textPrimary"
                 >
-                    <SongItem v-for="(song, index) in songs" :key="index"
-                              :class="(listenedSongs.includes(index) && index !== selectedItem ? 'opacity-50' : '')"
-                              :artist="song.artist" :title="song.title"></SongItem>
+                    <draggable v-model="mySongs">
+                        <transition-group>
+                            <SongItem v-for="(song, index) in mySongs" :key="index"
+                                      :class="(listenedSongs.includes(index) && index !== selectedItem ? 'opacity-50' : '')"
+                                      :artist="song.artist" :title="song.title"/>
+                        </transition-group>
+                    </draggable>
                 </v-list-item-group>
             </v-list>
         </v-card>
@@ -18,19 +22,45 @@
 
 <script>
     import SongItem from "./SongItem";
+    import draggable from 'vuedraggable';
+
     export default {
         name: 'Songlist',
-        components: {SongItem},
+        components: {
+            SongItem,
+            draggable,
+        },
         props:{
             songs: Array,
             containerStyle: Object,
             currentIndex: Number,
-            listenedSongs: Array
+            listenedSongs: Array,
+            onDrag: Function
         },
         data: () => ({
             selectedItem: 0,
+            songsArray: []
         }),
+        created(){
+            this.songsArray = this.songs;
+        },
+        computed: {
+            mySongs : {
+                get(){
+                    return this.songsArray;
+                },
+                set(value){
+                    this.songsArray = value;
+                }
+            }
+        },
         watch:{
+            songsArray(songs){
+                this.onDrag(songs);
+            },
+            songs(newSongs){
+                this.songsArray = newSongs;
+            },
             selectedItem(newIndex){
                 this.$emit('changeSong', newIndex);
             },

@@ -17,6 +17,7 @@
     "vue-cli-plugin-vuetify-preset-basil": "^1.0.4",
     "vue-router": "^3.4.8",
     "vue2-perfect-scrollbar": "^1.5.0",
+    "vuedraggable": "^2.24.3",
     "vuetify": "^2.2.11",
     "vuex": "^3.5.1"
   },

@@ -1,6 +1,6 @@
 <template>
     <Loading v-if="loadingData" no-container/>
-    <Playlist v-else-if="songs.length > 0" :songs="songs"/>
+    <Playlist v-else-if="songs.length > 0" :songs-list="songs"/>
     <div v-else>No songs in this playlist</div>
 </template>
 
