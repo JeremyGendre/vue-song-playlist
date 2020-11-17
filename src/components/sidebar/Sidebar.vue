@@ -7,7 +7,7 @@
     >
         <v-list-item>
             <v-list-item-avatar>
-                <v-img :src="(`https://randomuser.me/api/portraits/men/22.jpg`)"></v-img>
+                <v-img src="/images/profile.jpg"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>

@@ -55,7 +55,7 @@
                 </div>
 
                 <!-- VOLUME -->
-                <div class="text-center w-full flex">
+                <div class="text-center w-full flex mt-2">
                     <v-slider
                             hide-details
                             v-model="audioVolume"
