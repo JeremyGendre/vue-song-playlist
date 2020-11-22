@@ -7,9 +7,13 @@
                         v-model="selectedItem"
                         color="textPrimary"
                 >
-                    <SongItem v-for="(song, index) in songs" :key="index"
+                    <SongItem v-for="(song, index) in songs" :key="index" :index="index"
                               :class="(listenedSongs.includes(index) && index !== selectedItem ? 'opacity-50' : '')"
-                              :artist="song.artist" :title="song.title"></SongItem>
+                              :active="index === selectedItem"
+                              :is-next="nextSongIndex === index"
+                              :song="song"
+                              @toggleSetNext="toggleSetNext"
+                    />
                 </v-list-item-group>
             </v-list>
         </v-card>
@@ -25,11 +29,17 @@
             songs: Array,
             containerStyle: Object,
             currentIndex: Number,
-            listenedSongs: Array
+            listenedSongs: Array,
+            nextSongIndex: Number
         },
         data: () => ({
             selectedItem: 0,
         }),
+        methods:{
+            toggleSetNext(index){
+                this.$emit('toggleSetNext', index);
+            }
+        },
         watch:{
             selectedItem(newIndex){
                 this.$emit('changeSong', newIndex);

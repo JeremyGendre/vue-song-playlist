@@ -16,7 +16,9 @@
         <div class="h-full relative">
             <Songlist
                     @changeSong="handleSongChange"
+                    @toggleSetNext="toggleSetNext"
                     :containerStyle="containerStyle"
+                    :nextSongIndex="nextSongIndex"
                     :songs="songs"
                     :currentIndex="actualSongIndex"
                     :listenedSongs="listenedSongIndexes"
@@ -48,13 +50,23 @@
         },
         data: () => ({
             listenedSongIndexes: [],
+            nextSongIndex: null,
             actualSongIndex: 0,
             containerStyle: null,
             randomPlaylist: false,
             snackbar: defaultSnackbar
         }),
         methods: {
+            toggleSetNext(index){
+                console.log(index);
+                this.nextSongIndex = ( this.nextSongIndex !== index ? index : null ) ;
+            },
             nextSong(){
+                if(this.nextSongIndex !== null){
+                    this.actualSongIndex = this.nextSongIndex;
+                    this.nextSongIndex = null;
+                    return;
+                }
                 if(this.randomPlaylist && this.listenedSongIndexes.length < this.songs.length){
                     const self = this;
                     const nonListenedSongIndexes = [];
@@ -88,6 +100,7 @@
                 this.containerStyle = value;
             },
             handleSongChange(index){
+                this.nextSongIndex = null;
                 if(this.songs[index] !== undefined){
                     this.actualSongIndex = index;
                 }
