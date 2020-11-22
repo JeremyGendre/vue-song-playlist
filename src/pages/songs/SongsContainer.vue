@@ -5,6 +5,7 @@
                 :songs="songs"
                 :loading="loadingData"
                 :on-delete-songs="handleDeleteSongs"
+                :on-update-song="handleUpdateSong"
         />
     </div>
 </template>
@@ -42,6 +43,11 @@
         methods: {
             handleNewSong(newSong){
                 this.songs = [...this.songs, newSong];
+            },
+            handleUpdateSong(updatedSong){
+                this.songs = this.songs.map(song => {
+                    return ( updatedSong.id !== song.id ? song : updatedSong );
+                })
             },
             handleDeleteSongs(songsToDelete) {
                 this.songs = this.songs.filter(song => !songsToDelete.includes(song));

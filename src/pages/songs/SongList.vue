@@ -156,6 +156,18 @@
                 ></v-text-field>
             </div>
         </template>
+        <template v-slot:item.actions="{ item }">
+            <v-btn
+                    icon
+                    small
+                    :loading="loadingItems.includes(item.id)"
+                    :disabled="loadingItems.includes(item.id)"
+                    @click="toggleFavorite(item)"
+            >
+                <v-icon v-if="item.isFavorite" color="yellow">mdi-star</v-icon>
+                <v-icon v-else>mdi-star-outline</v-icon>
+            </v-btn>
+        </template>
     </v-data-table>
 </template>
 
@@ -176,7 +188,8 @@
         props: {
             songs: Array,
             loading: Boolean,
-            onDeleteSongs: Function
+            onDeleteSongs: Function,
+            onUpdateSong: Function
         },
         data: () => ({
             tableHeader: [
@@ -197,7 +210,8 @@
             loadingDialog: false,
             dialogError: null,
             addToPlaylistComplete: false,
-            search: ''
+            search: '',
+            loadingItems: []
         }),
         created(){
             const self = this;
@@ -212,6 +226,18 @@
                 .finally(() => { this.loadingPlaylists = false; });
         },
         methods: {
+            toggleFavorite(item){
+                const self = this;
+                const data = { ...item, isFavorite : !item.isFavorite };
+                this.loadingItems = [ ...this.loadingItems, item.id ];
+                database.collection("Song").doc(item.id)
+                    .set(data)
+                    .then(() => {
+                        self.onUpdateSong(data);
+                    })
+                    .catch(console.error)
+                    .finally(() => { self.loadingItems = self.loadingItems.filter(songId => songId !== item.id); })
+            },
             closeModal(){
                 this.dialogError = null;
                 this.loadingDialog = false;
