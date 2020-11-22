@@ -32,10 +32,6 @@
     import Songlist from "../../components/playlist/SongList";
     import {getRandomInt} from "../../helpers/functions";
     import MySnackbar from "../../components/snackbar/MySnackbar";
-    import firebase from 'firebase/app';
-    import 'firebase/firestore';
-
-    const database = firebase.firestore();
 
     const defaultSnackbar = {
         show: false,
@@ -89,8 +85,6 @@
         methods: {
             onListDrag(value){
                 this.songsArray = value;
-                database.collection("Playlist").doc(this.$route.params.id)
-                    .update({ songs: value });
             },
             nextSong(){
                 if(this.randomPlaylist && this.listenedSongIndexes.length < this.songsArray.length){
