@@ -32,7 +32,6 @@
         }),
         watch:{
             selectedItem(newIndex){
-                console.log('ouais re');
                 this.$emit('changeSong', newIndex);
             },
             currentIndex(newIndex){
