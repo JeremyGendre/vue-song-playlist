@@ -58,7 +58,6 @@
         }),
         methods: {
             toggleSetNext(index){
-                console.log(index);
                 this.nextSongIndex = ( this.nextSongIndex !== index ? index : null ) ;
             },
             nextSong(){
