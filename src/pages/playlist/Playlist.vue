@@ -7,7 +7,7 @@
                     @previous="prevSong"
                     @toggleRandom="toggleRandom"
                     @toggleLoop="toggleLoop"
-                    :song="songsArray[actualSongIndex]"
+                    :song="songs[actualSongIndex]"
                     :isPrevPossible="isPrevPossible"
                     :isNextPossible="isNextPossible"
                     :randomPlaylist="randomPlaylist"
@@ -17,10 +17,9 @@
             <Songlist
                     @changeSong="handleSongChange"
                     :containerStyle="containerStyle"
-                    :songs="songsArray"
+                    :songs="songs"
                     :currentIndex="actualSongIndex"
                     :listenedSongs="listenedSongIndexes"
-                    :on-drag="onListDrag"
             />
         </div>
         <MySnackbar :options="snackbar"/>
@@ -45,56 +44,25 @@
         name: 'Playlist',
         components: {MySnackbar, Songlist, Player},
         props:{
-            songsList: Array
+            songs: Array
         },
         data: () => ({
             listenedSongIndexes: [],
             actualSongIndex: 0,
             containerStyle: null,
             randomPlaylist: false,
-            snackbar: defaultSnackbar,
-            songsArray : []
+            snackbar: defaultSnackbar
         }),
-        created(){
-            this.songsArray = this.songsList;
-        },
-        computed: {
-            songs: {
-                get(){ return this.songsArray },
-                set(value){
-                    this.songsArray = value;
-                }
-            },
-            isPrevPossible(){
-                return this.actualSongIndex > 0;
-            },
-            isNextPossible(){
-                return this.actualSongIndex < this.songs.length - 1;
-            }
-        },
-        watch: {
-            songsList(songs){
-                this.songsArray = songs;
-            },
-            actualSongIndex(newIndex){
-                if(!this.listenedSongIndexes.includes(newIndex)){
-                    this.listenedSongIndexes.push(newIndex);
-                }
-            }
-        },
         methods: {
-            onListDrag(value){
-                this.songsArray = value;
-            },
             nextSong(){
-                if(this.randomPlaylist && this.listenedSongIndexes.length < this.songsArray.length){
+                if(this.randomPlaylist && this.listenedSongIndexes.length < this.songs.length){
                     const self = this;
                     const nonListenedSongIndexes = [];
-                    this.songsArray.forEach((song, index) => {
+                    this.songs.forEach((song, index) => {
                         if(!self.listenedSongIndexes.includes(index)){ nonListenedSongIndexes.push(index); }
                     });
                     this.actualSongIndex = nonListenedSongIndexes[getRandomInt(0, nonListenedSongIndexes.length)];
-                } else if(this.actualSongIndex < this.songsArray.length - 1){
+                } else if(this.actualSongIndex < this.songs.length - 1){
                     this.actualSongIndex++;
                 }else{
                     this.snackbar = {
@@ -120,7 +88,7 @@
                 this.containerStyle = value;
             },
             handleSongChange(index){
-                if(this.songsArray[index] !== undefined){
+                if(this.songs[index] !== undefined){
                     this.actualSongIndex = index;
                 }
             },
@@ -140,6 +108,21 @@
                     text: (isLooped ? 'Current track is being looped' : 'Track loop turned off'),
                     btnAction: () => { this.snackbar.show = false }
                 };
+            }
+        },
+        computed: {
+            isPrevPossible(){
+                return this.actualSongIndex > 0;
+            },
+            isNextPossible(){
+                return this.actualSongIndex < this.songs.length - 1;
+            }
+        },
+        watch: {
+            actualSongIndex(newIndex){
+                if(!this.listenedSongIndexes.includes(newIndex)){
+                    this.listenedSongIndexes.push(newIndex);
+                }
             }
         },
     };
