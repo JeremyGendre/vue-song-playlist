@@ -157,16 +157,23 @@
             </div>
         </template>
         <template v-slot:item.actions="{ item }">
-            <v-btn
-                    icon
-                    small
-                    :loading="loadingItems.includes(item.id)"
-                    :disabled="loadingItems.includes(item.id)"
-                    @click="toggleFavorite(item)"
-            >
-                <v-icon v-if="item.isFavorite" color="yellow">mdi-star</v-icon>
-                <v-icon v-else>mdi-star-outline</v-icon>
-            </v-btn>
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                            icon
+                            small
+                            :loading="loadingItems.includes(item.id)"
+                            :disabled="loadingItems.includes(item.id)"
+                            @click="toggleFavorite(item)"
+                    >
+                        <v-icon v-if="item.isFavorite" color="yellow">mdi-star</v-icon>
+                        <v-icon v-else>mdi-star-outline</v-icon>
+                    </v-btn>
+                </template>
+                <span>{{ item.isFavorite ? 'Remove from favorites' : 'Add to favorites' }}</span>
+            </v-tooltip>
         </template>
     </v-data-table>
 </template>

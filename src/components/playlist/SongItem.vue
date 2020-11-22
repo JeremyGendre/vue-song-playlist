@@ -5,10 +5,22 @@
             <v-list-item-subtitle v-text="song.artist"/>
         </v-list-item-content>
         <v-list-item-action>
-            <v-btn v-if="!active" icon @click="toggleSetNext" small>
-                <v-icon v-if="isNext" color="grey lighten-1">mdi-skip-next-circle</v-icon>
-                <v-icon v-else color="grey lighten-1">mdi-skip-next-outline</v-icon>
-            </v-btn>
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                            v-if="!active"
+                            icon
+                            @click="toggleSetNext"
+                            small
+                    >
+                        <v-icon v-if="isNext" color="grey lighten-1">mdi-skip-next-circle</v-icon>
+                        <v-icon v-else color="grey lighten-1">mdi-skip-next-outline</v-icon>
+                    </v-btn>
+                </template>
+                <span>{{ isNext ? 'Remove next' : 'Set to next' }}</span>
+            </v-tooltip>
         </v-list-item-action>
     </v-list-item>
 </template>
@@ -23,10 +35,6 @@
             isNext: Boolean
         },
         methods: {
-            /*toggleFavorite(){
-                database.collection("Playlist").doc(this.$route.params.id)
-                    .set({ ...this.song, isFavorite : !this.song.isFavorite })
-            },*/
             toggleSetNext(e){
                 e.preventDefault();
                 e.stopPropagation();
