@@ -6,7 +6,7 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "app_name": "songplaylist",
+    "app_name": "Song-Playlist",
     "default_locale": "en",
     "short_name": "SPL",
     "description": "Your favorite web app to listen songs",
