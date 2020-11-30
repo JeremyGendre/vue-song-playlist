@@ -5,6 +5,7 @@ import router from './plugins/router';
 import PerfectScrollbar from 'vue2-perfect-scrollbar';
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css';
 import store from "./plugins/vuex";
+import KnobControl from 'vue-knob-control';
 
 Vue.config.productionTip = false;
 
@@ -17,10 +18,11 @@ if ('serviceWorker' in navigator) {
 }
 
 Vue.use(PerfectScrollbar);
+Vue.use(KnobControl);
 
 new Vue({
-  vuetify,
-  router,
-  store,
-  render: h => h(App)
+    vuetify,
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app');

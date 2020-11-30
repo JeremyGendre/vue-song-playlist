@@ -65,6 +65,13 @@
                             prepend-icon="mdi-volume-high"
                     ></v-slider>
                 </div>
+                <knob-control
+                        primary-color="#FF7433"
+                        secondary-color="#FFE7DC"
+                        :stroke-width="13"
+                        v-model="knobValue"
+                        text-color="white"
+                ></knob-control>
             </v-card-text>
         </v-card>
     </div>
@@ -74,6 +81,7 @@
     import {getStoredItem, storeItem} from "../../helpers/storage";
     import {updateBackground} from "../../helpers/functions";
     import fetchRandomImage from "../../data/backgroundImage";
+    import KnobControl from 'vue-knob-control';
     import firebase from 'firebase/app';
     import 'firebase/storage';
 
@@ -86,6 +94,9 @@
             isNextPossible: Boolean,
             isPrevPossible: Boolean,
             randomPlaylist: Boolean
+        },
+        components:{
+            KnobControl
         },
         data : () => ({
             playing: false,
@@ -180,6 +191,9 @@
                 const minutes = Math.floor( time / 60);
                 const seconds = time - (minutes * 60);
                 return minutes + ':' + (seconds < 10 ? '0' + seconds : seconds);
+            },
+            knobValue(){
+                return Math.floor(this.audioVolume * 100);
             }
         },
         watch:{
