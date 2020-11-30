@@ -38,7 +38,6 @@ self.addEventListener('fetch',  event => {
     event.respondWith(
         caches.open('dynamic').then(cache => {
             return cache.match(event.request).then(response => {
-                console.log(response);
                 return response || fetch(event.request).then(response => {
                     if(event.request.method.toLowerCase() === 'get'){
                         cache.put(event.request, response.clone());

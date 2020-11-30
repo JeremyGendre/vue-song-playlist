@@ -1,4 +1,10 @@
-# songplaylist
+# Song Playlist
+
+Welcome to this Vuejs project made during a course within the Ynov Lyon's school.
+
+This project is actually using the Firebase API.
+
+I'd like to develop it further more in order to have a solid PWA project.
 
 ## Project setup
 ```

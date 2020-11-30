@@ -11,11 +11,8 @@ Vue.config.productionTip = false;
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
       .register('serviceWorker.js')
-      .then(() => {
-        console.log('Registration OK');
-      })
       .catch(error => {
-        console.error('Erreur: ', error);
+        console.error('An error occurred during service worker\'s registration : ', error);
       });
 }
 
