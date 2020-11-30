@@ -10,7 +10,6 @@
                     <v-btn
                             v-bind="attrs"
                             v-on="on"
-                            v-if="!active"
                             icon
                             @click="toggleSetNext"
                             small
