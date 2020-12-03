@@ -14,6 +14,7 @@ Vue.use(VueRouter);
 const routes = [
     { path: '/', name: 'home', component: Home },
     { path: '/playlist/:id', name: 'playlist', component: PlaylistContainer },
+    { path: '/favorites', name: 'favorites', component: PlaylistContainer, props: { type: 'favorites' } },
     { path: '/songs', name: 'songs', component: SongsContainer },
     { path: '/login', name: 'login', component: Login },
     { path: '/register', name: 'register', component: Register },

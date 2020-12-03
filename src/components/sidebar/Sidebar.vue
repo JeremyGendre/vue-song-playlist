@@ -44,6 +44,7 @@
             navigationItems: [
                 { icon: 'mdi-playlist-music', title: 'My playlists', link: '/' },
                 { icon: 'mdi-file-music-outline', title: 'My songs', link: '/songs' },
+                { icon: 'mdi-heart', title: 'My favorites', link: '/favorites' },
                 { icon: 'mdi-cog', title: 'Settings', link: '/settings' }
             ]
         }),
