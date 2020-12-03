@@ -8,13 +8,14 @@ import Register from "../pages/userLifeCycle/Register";
 import Logout from "../pages/userLifeCycle/Logout";
 import PlaylistContainer from "../pages/playlist/PlaylistContainer";
 import SongsContainer from "../pages/songs/SongsContainer";
+import Favorites from "../pages/playlist/Favorites";
 
 Vue.use(VueRouter);
 
 const routes = [
     { path: '/', name: 'home', component: Home },
     { path: '/playlist/:id', name: 'playlist', component: PlaylistContainer },
-    { path: '/favorites', name: 'favorites', component: PlaylistContainer, props: { type: 'favorites' } },
+    { path: '/favorites', name: 'favorites', component: Favorites },
     { path: '/songs', name: 'songs', component: SongsContainer },
     { path: '/login', name: 'login', component: Login },
     { path: '/register', name: 'register', component: Register },
